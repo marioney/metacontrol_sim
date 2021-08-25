@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <!--arg name="range_transformer" default="[0 for x in m.ranges]" /-->
+  <arg name="transform_fn" default="[0 for x in m.ranges]" />
+  <arg name="scan_topic" default="/scan" />
+  <arg name="fake_scan_topic" default="/fake_scan" />
+  <node pkg="metacontrol_sim" type="fake_laserscanner.py" name="fake_laserscsanner"
+        args="--wait-for-start $(arg scan_topic) $(arg fake_scan_topic) sensor_msgs/LaserScan 'sensor_msgs.msg.LaserScan(
+                                                                        header=m.header, 
+                                                                        angle_min=m.angle_min,
+                                                                        angle_max=m.angle_max,
+                                                                        angle_increment=m.angle_increment,
+                                                                        time_increment=m.time_increment,
+                                                                        scan_time=m.scan_time,
+                                                                        range_min=m.range_min,
+                                                                        range_max=m.range_max,
+                                                                        ranges=m.ranges,
+                                                                        intensities=m.intensities)'
+                                                                      --import sensor_msgs">
+    <param name="transform_fn" value = "$(arg transform_fn)" />
+  </node>
+</launch>
